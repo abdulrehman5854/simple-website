@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>simple horizon | peaceful space</title>
+  <!-- Link to external CSS file (separate) -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="card">
+  <!-- subtle decorative icon -->
+  <div class="hero-icon">🌿 ✨</div>
+  <h1>simple horizon</h1>
+  <div class="tagline">breathe. reflect. create.</div>
+
+  <!-- simple 3-column info blocks: clean, minimal -->
+  <div class="info-grid">
+    <div class="info-card">
+      <span class="info-emoji">🌱</span>
+      <h3>mindful</h3>
+      <p>small pauses, big clarity</p>
+    </div>
+    <div class="info-card">
+      <span class="info-emoji">📖</span>
+      <h3>stories</h3>
+      <p>words that linger softly</p>
+    </div>
+    <div class="info-card">
+      <span class="info-emoji">🎨</span>
+      <h3>create</h3>
+      <p>ideas into gentle action</p>
+    </div>
+  </div>
+
+  <!-- quote / message area - interactive update with button -->
+  <div class="message-area" id="inspireBox">
+    <div class="message-text" id="dynamicMessage">
+      “Simplicity is the ultimate sophistication.”
+    </div>
+    <div class="message-author" id="dynamicAuthor">— Leonardo da Vinci</div>
+  </div>
+
+  <!-- button to refresh wisdom (simple interactivity) -->
+  <button class="action-button" id="inspireBtn">
+    ✨ new insight
+  </button>
+
+  <div class="footer-note">
+    <span>✦ minimal space for clarity ✦</span>
+  </div>
+</div>
+
+<!-- simple javascript for interactive message rotation (keeps within html but enhances experience, still separate structure) -->
+<script>
+  (function() {
+    // Collection of thoughtful quotes & authors
+    const quotes = [
+      { text: "Simplicity is the ultimate sophistication.", author: "— Leonardo da Vinci" },
+      { text: "The art of being wise is the art of knowing what to overlook.", author: "— William James" },
+      { text: "Enjoy the little things, for one day you may look back and realize they were the big things.", author: "— Robert Brault" },
+      { text: "Almost everything will work again if you unplug it for a few minutes, including you.", author: "— Anne Lamott" },
+      { text: "Wherever you go, go with all your heart.", author: "— Confucius" },
+      { text: "Do small things with great love.", author: "— Mother Teresa" },
+      { text: "Clutter is the physical manifestation of unmade decisions.", author: "— Gretchen Rubin" },
+      { text: "Rest when you're weary. Refresh and renew yourself.", author: "— Thich Nhat Hanh" }
+    ];
+
+    let currentIndex = 0;  // not required, but we rotate randomly or sequential? we'll do random fresh each click
+
+    const msgEl = document.getElementById('dynamicMessage');
+    const authorEl = document.getElementById('dynamicAuthor');
+    const btn = document.getElementById('inspireBtn');
+
+    function updateRandomWisdom() {
+      // pick random quote from array
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      const selected = quotes[randomIndex];
+      if (msgEl && authorEl) {
+        msgEl.textContent = `“${selected.text}”`;
+        authorEl.textContent = selected.author;
+      }
+    }
+
+    // optional: set initial random quote (different from default static da vinci for more dynamic)
+    // but we keep default as da vinci (already set in HTML), but to avoid duplicate we set a different starting one? 
+    // actually the HTML initial is "simplicity is ultimate sophistication", which is also first quote in array. 
+    // we will randomize on load to show variety (but preserve fresh feeling)
+    // just to demonstrate separate but interactive: start with random quote on page load
+    if (msgEl && authorEl) {
+      // get random from array excluding maybe matching? but it's fine.
+      const initIndex = Math.floor(Math.random() * quotes.length);
+      const initQuote = quotes[initIndex];
+      msgEl.textContent = `“${initQuote.text}”`;
+      authorEl.textContent = initQuote.author;
+    }
+
+    if (btn) {
+      btn.addEventListener('click', updateRandomWisdom);
+    }
+  })();
+</script>
+</body>
+</html>
