@@ -1,3 +1,18 @@
+# My n8n Automation Portfolio 🤖
+
+Welcome to my automation repository! Here I document the real-world backend workflows I have built using **n8n**, **Google Sheets**, and **Gmail API**.
+
+## 🚀 Projects Included
+
+### 1. E-Commerce Order Filter & Alert System
+* **Trigger:** Google Sheets (rowAdded)
+* **Logic:** Conditional If-node routing based on numerical values (orders >= 10,000 PKR).
+* **Action:** Routes high-value orders to management alerts and standard orders to client invoices via dynamic Gmail templates.
+
+---
+*Developed by Abdulrehman - Passionate about DevOps, Cloud Engineering, and Backend Automation.*
+
+
 {
   "nodes": [
     {
