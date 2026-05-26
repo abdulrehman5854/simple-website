@@ -1,0 +1,162 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "16aZiBp_0e4LKXSHO3tD9mCl-KYQj9KXQE0HK9OpKzNA",
+          "mode": "list",
+          "cachedResultName": "E-Commerce Order",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/16aZiBp_0e4LKXSHO3tD9mCl-KYQj9KXQE0HK9OpKzNA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/16aZiBp_0e4LKXSHO3tD9mCl-KYQj9KXQE0HK9OpKzNA/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4d0f1981-6733-4857-9e47-1372f02eb127",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "K3mwCSNvRm0wRjUX",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d4e47e6e-87b4-4442-b53c-b57623fd9a10",
+              "leftValue": "={{ $json['Total Amount'] }}",
+              "rightValue": 10000,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        304,
+        0
+      ],
+      "id": "ffcff414-9fef-4749-8651-caa455bc3e57",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Google Sheets Trigger').item.json['Customer Email'] }}",
+        "subject": "VIP Order",
+        "emailType": "text",
+        "message": "=High-value order received from  {{ $('Google Sheets Trigger').item.json['Customer Name'] }}, of amount Rs.{{ $('Google Sheets Trigger').item.json['Total Amount'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        512,
+        -96
+      ],
+      "id": "9410c43e-9fcf-48c2-b284-55062eb0e50b",
+      "name": "Send a message",
+      "webhookId": "77b34fc9-be16-49e6-8c31-510981704eaf",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EPIWn0y0TqT2CpDc",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Google Sheets Trigger').item.json['Customer Email'] }}",
+        "subject": "Standard Order",
+        "emailType": "text",
+        "message": "=Hi  {{ $('Google Sheets Trigger').item.json['Customer Name'] }}, thank you for buying{{ $('Google Sheets Trigger').item.json.Product }}, Your total bill is Rs.{{ $('Google Sheets Trigger').item.json['Total Amount'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        512,
+        96
+      ],
+      "id": "8f31d149-efcd-46aa-a28f-c8b333d4387b",
+      "name": "Send a message1",
+      "webhookId": "41cd4383-65d3-4a82-a57b-8eadb9587dfb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EPIWn0y0TqT2CpDc",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f72beaff81850d9c6438945a090f3e422961bfc59f2c8d19e14ba9fb1845cde7"
+  }
+}
